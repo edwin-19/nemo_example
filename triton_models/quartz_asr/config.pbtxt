@@ -1,0 +1,39 @@
+name: "quartz_asr"
+platform: "onnxruntime_onnx"
+max_batch_size : 8
+
+input [
+    {
+        name: "audio_signal",
+        data_type: TYPE_FP32,
+        dims: [64, -1]   
+    }
+]
+
+output [
+    {
+        name: "logprobs",
+        data_type: TYPE_FP32,
+        dims: [-1, 29]
+    }
+]
+
+# Optimization
+instance_group [ {
+     count: 2
+     kind: KIND_CPU
+}]
+
+model_warmup: [{
+    name: "quartz_asr_warmup"
+    batch_size: 1
+    inputs: {
+        key: "audio_signal"
+        value: {
+            data_type: TYPE_FP32
+            dims: 64
+            dims: 32
+            zero_data: true
+        }
+    }
+}]
