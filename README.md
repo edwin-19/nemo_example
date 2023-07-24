@@ -14,3 +14,5 @@ pip install datasets
 python nemo_asr_sample.py
 python nemo_ner_sample.py
 ```
+
+- Update 25/7/2023 added demo for colab
